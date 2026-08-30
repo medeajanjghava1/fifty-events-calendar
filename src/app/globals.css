@@ -1,0 +1,402 @@
+/*
+ * Tokens matched to fifty.ge's own stylesheet (Montserrat + Source Sans 3,
+ * blue primary at hsl(211 100% 50%), near-black dark surface) so this page
+ * drops into the real site without a re-theme.
+ */
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(0 0% 0%);
+  --card: hsl(0 0% 100%);
+  --muted-foreground: hsl(0 0% 43%);
+  --secondary: hsl(240 5% 96%);
+  --border: hsl(240 6% 90%);
+  --primary: hsl(211 100% 50%);
+  --primary-soft: hsl(211 100% 96%);
+  /* Same hues as fifty.ge's own --warning/--success/--destructive tokens. */
+  --orange: hsl(36 100% 50%);
+  --orange-soft: hsl(36 100% 95%);
+  --green: hsl(145 75% 42%);
+  --green-soft: hsl(145 60% 94%);
+  --red: hsl(4 100% 60%);
+  --red-soft: hsl(4 100% 96%);
+
+  --font-heading: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: hsl(0 0% 10%);
+    --foreground: hsl(0 0% 98%);
+    --card: hsl(0 0% 15%);
+    --muted-foreground: hsl(0 0% 60%);
+    --secondary: hsl(240 4% 20%);
+    --border: hsl(240 4% 25%);
+    --primary: hsl(211 100% 50%);
+    --primary-soft: hsl(211 60% 18%);
+    --orange: hsl(36 100% 58%);
+    --orange-soft: hsl(36 70% 16%);
+    --green: hsl(145 65% 52%);
+    --green-soft: hsl(145 45% 14%);
+    --red: hsl(4 100% 66%);
+    --red-soft: hsl(4 70% 18%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+a {
+  color: inherit;
+}
+
+.events-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+.events-eyebrow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 0 0 0.5rem;
+}
+
+/* Calendar */
+
+.calendar-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-head h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.calendar-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: var(--foreground);
+  background: var(--card);
+}
+
+.calendar-nav a:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.calendar-nav a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.dow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+  text-align: center;
+  padding-bottom: 0.4rem;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.3rem;
+  height: 4.75rem;
+  border-radius: var(--radius-md);
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  padding: 0.4rem;
+  cursor: default;
+  text-align: left;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .cell {
+    height: 5.75rem;
+  }
+}
+
+.cell-outside {
+  opacity: 0.4;
+}
+
+.cell-today {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.cell-today .cell-num {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.cell-has-events {
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.cell-has-events:hover,
+.cell-has-events:focus-visible {
+  border-color: var(--primary);
+}
+
+.cell-has-events:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.cell-num {
+  display: block;
+  font-weight: 600;
+}
+
+.cell-events {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  overflow: hidden;
+}
+
+.cell-event {
+  display: block;
+  background: var(--chip-bg);
+  border-radius: var(--radius-sm);
+  padding: 0.15rem 0.35rem;
+  font-size: 0.68rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.cell-event-blue {
+  --chip-bg: var(--primary-soft);
+  --chip-accent: var(--primary);
+}
+
+.cell-event-orange {
+  --chip-bg: var(--orange-soft);
+  --chip-accent: var(--orange);
+}
+
+.cell-event-green {
+  --chip-bg: var(--green-soft);
+  --chip-accent: var(--green);
+}
+
+.cell-event-red {
+  --chip-bg: var(--red-soft);
+  --chip-accent: var(--red);
+}
+
+.cell-event-time {
+  color: var(--chip-accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.cell-event-title {
+  color: var(--foreground);
+}
+
+.cell-more {
+  font-size: 0.66rem;
+  color: var(--muted-foreground);
+  padding: 0 0.35rem;
+}
+
+.calendar-empty {
+  margin: 1.5rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+/* Event detail overlay */
+
+.event-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  z-index: 50;
+}
+
+@media (min-width: 640px) {
+  .event-overlay {
+    align-items: center;
+    padding: 1.5rem;
+  }
+}
+
+.event-panel {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1.6rem 1.6rem 2rem;
+}
+
+@media (min-width: 640px) {
+  .event-panel {
+    border-radius: var(--radius-lg);
+  }
+}
+
+.event-panel-close {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--muted-foreground);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.event-panel-close:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.event-item + .event-item {
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--border);
+}
+
+.event-cover {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin-bottom: 0.9rem;
+  display: block;
+}
+
+.event-item h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: -0.005em;
+  margin: 0 0 0.3rem;
+  padding-right: 1.5rem;
+}
+
+.event-accent-blue {
+  --chip-accent: var(--primary);
+}
+
+.event-accent-orange {
+  --chip-accent: var(--orange);
+}
+
+.event-accent-green {
+  --chip-accent: var(--green);
+}
+
+.event-accent-red {
+  --chip-accent: var(--red);
+}
+
+.event-when {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--chip-accent);
+  margin: 0 0 0.15rem;
+}
+
+.event-where {
+  font-size: 0.88rem;
+  color: var(--muted-foreground);
+  margin: 0 0 0.7rem;
+}
+
+.event-desc {
+  margin: 0;
+  font-size: 0.94rem;
+}
